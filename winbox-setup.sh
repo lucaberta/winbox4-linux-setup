@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-URL="https://mikrotik.com/download"
+URL="https://mikrotik.com/download/winbox"
 DEST_DIR="/opt/winbox"
 DESKTOP_FILE="/usr/share/applications/winbox.desktop"
 ICON_PATH="$DEST_DIR/assets/img/winbox.png"
@@ -25,7 +25,7 @@ install_winbox() {
     echo "Found WinBox Linux download link: $DOWNLOAD_LINK"
 
     # Extract version information from the URL (e.g., "4.0beta9" from "4.0beta9/WinBox_Linux.zip")
-    CURRENT_VERSION=$(echo "$DOWNLOAD_LINK" | grep -oP 'winbox/\K[^/]+')
+    CURRENT_VERSION=$(echo "$DOWNLOAD_LINK" | grep -m 1 -oP 'winbox/\K[^/]+')
 
     echo "Current WinBox version available: $CURRENT_VERSION"
 
@@ -44,7 +44,7 @@ install_winbox() {
 
         # Download the file with a progress bar
         echo "Downloading $DOWNLOAD_LINK..."
-        curl -L --progress-bar "$DOWNLOAD_LINK" -o "$ZIP_FILE"
+        curl -L --progress-bar --output "$ZIP_FILE" ""$DOWNLOAD_LINK"" 2>/dev/null
 
         # Check if the file was downloaded
         if [ ! -f "$ZIP_FILE" ]; then
